@@ -1,0 +1,7 @@
+id,date,lat,lng,uid,user
+8,2022-06-01T11:33:57.526+03:00[Asia/Jerusalem],32.0934969,34.8806326,s1@s.com,guest
+9,2022-02-28T12:28:47.187+02:00[Asia/Jerusalem],50,60,3,skipper
+10,2022-02-28T12:28:47.187+02:00[Asia/Jerusalem],100,60,4,skipper
+11,2022-02-28T12:28:47.187+02:00[Asia/Jerusalem],200,60,5,skipper
+12,2022-06-01T19:00:47.187+02:00[Asia/Jerusalem],200,60,7,skipper
+13,2022-06-01T19:00:47.187+02:00[Asia/Jerusalem],32.157108,34.831799,test@test.com,skipper

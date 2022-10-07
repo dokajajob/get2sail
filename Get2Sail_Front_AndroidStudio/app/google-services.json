@@ -1,0 +1,130 @@
+{
+  "project_info": {
+    "project_number": "649205773813",
+    "firebase_url": "https://dokajajobintro-default-rtdb.firebaseio.com",
+    "project_id": "dokajajobintro",
+    "storage_bucket": "dokajajobintro.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:649205773813:android:5616c26a9bb8835efb1cbc",
+        "android_client_info": {
+          "package_name": "com.dokajajob.firebaseintro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "649205773813-h59cfiqtvqjsu7mp0d4p7rs4tlf78vf8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dokajajob.firebaseintro",
+            "certificate_hash": "6fb592c627f0843e33f3343ee415ced1b562ec90"
+          }
+        },
+        {
+          "client_id": "649205773813-pah5uert66rfa0oerehicvs25kftrmo6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6WSC2k_LrmY02FPZf6ymcA9f3PxrbQx4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "649205773813-pah5uert66rfa0oerehicvs25kftrmo6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:649205773813:android:2d4ef64758baac18fb1cbc",
+        "android_client_info": {
+          "package_name": "com.dokajajob.get2sail_p1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "649205773813-7tg7jou95fi7qvvdtmjn25lbei8tshhr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dokajajob.get2sail_p1",
+            "certificate_hash": "6fb592c627f0843e33f3343ee415ced1b562ec90"
+          }
+        },
+        {
+          "client_id": "649205773813-pah5uert66rfa0oerehicvs25kftrmo6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6WSC2k_LrmY02FPZf6ymcA9f3PxrbQx4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "649205773813-pah5uert66rfa0oerehicvs25kftrmo6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:649205773813:android:d3a5619977b1a8b8fb1cbc",
+        "android_client_info": {
+          "package_name": "com.dokajajob.skipphelp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "649205773813-45ifenf1dgju69anjdv5t7u2lukd7vok.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dokajajob.skipphelp",
+            "certificate_hash": "2625b9999f41b3f0887aab81d946763e928a18e5"
+          }
+        },
+        {
+          "client_id": "649205773813-gvdl0pk3to2ibq6hhkknipo17lspavl4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dokajajob.skipphelp",
+            "certificate_hash": "6fb592c627f0843e33f3343ee415ced1b562ec90"
+          }
+        },
+        {
+          "client_id": "649205773813-pah5uert66rfa0oerehicvs25kftrmo6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6WSC2k_LrmY02FPZf6ymcA9f3PxrbQx4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "649205773813-pah5uert66rfa0oerehicvs25kftrmo6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

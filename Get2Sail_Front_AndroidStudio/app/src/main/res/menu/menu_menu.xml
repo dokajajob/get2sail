@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/action_add"
+        android:icon="@drawable/ic_baseline_add_24"
+        android:title="@string/add_post"
+        app:showAsAction="always" />
+
+    <item android:id="@+id/action_show_only_skippers"
+        android:title="Show Skippers" />
+
+    <item android:id="@+id/action_show_only_guests"
+        android:title="Show Guests" />
+
+    <item android:id="@+id/action_back"
+        android:title="Back" />
+
+    <item android:id="@+id/action_show_location"
+        android:title="@string/Show_Location"
+        app:showAsAction="never" />
+
+    <item android:id="@+id/action_signout"
+        android:title="@string/logout"
+        app:showAsAction="never" />
+
+
+</menu>
