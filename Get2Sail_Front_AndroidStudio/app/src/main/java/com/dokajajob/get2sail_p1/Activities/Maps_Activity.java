@@ -135,13 +135,35 @@ public class Maps_Activity extends AppCompatActivity implements OnMapReadyCallba
         UserIs = getUserType();
         Log.d("UserIs : ", UserIs);
 
+    }
 
-        //Realtime database
-        mDatabase = FirebaseDatabase.getInstance();
-        mDatabaseReference = mDatabase.getReference().child(UserIs);
-        Log.d("mDatabaseReference: ", mDatabaseReference.toString());
-        mDatabaseReference.keepSynced(true);
 
+    /**
+     * Manipulates the map once available.
+     * This callback is triggered when the map is ready to be used.
+     */
+    @SuppressLint("MissingPermission")
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        mapReady = true;
+
+        //Clear map and get time
+        //clearMap();
+        getCurrentDate();
+
+        //Get first markers
+        try {
+            addMarkers();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        //Display other positions of same  user type
+        //start new loop thread
+        Log.d("addMarkersLoop : ", "started addMarkersLoop : ");
+
+        scheduledAddMarkersLoop();
 
     }
 
@@ -157,7 +179,6 @@ public class Maps_Activity extends AppCompatActivity implements OnMapReadyCallba
         return date;
 
     }
-
 
 
     /**
@@ -204,8 +225,6 @@ public class Maps_Activity extends AppCompatActivity implements OnMapReadyCallba
                 Double.toString(location.getLongitude());
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
 
-        //LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-
         GPS gps = new GPS();
 
 
@@ -241,6 +260,7 @@ public class Maps_Activity extends AppCompatActivity implements OnMapReadyCallba
         }
 
     }
+
 
     /**
      * getLastLocation Google API
@@ -298,7 +318,6 @@ public class Maps_Activity extends AppCompatActivity implements OnMapReadyCallba
     }
 
 
-
     /** get user type **/
     private String getUserType() {
 
@@ -319,10 +338,10 @@ public class Maps_Activity extends AppCompatActivity implements OnMapReadyCallba
 
             }
 
-
         }
         return null;
     }
+
 
     /** Upload to backend **/
     private void uploadToBackend(GPS gps) throws JSONException {
@@ -333,8 +352,6 @@ public class Maps_Activity extends AppCompatActivity implements OnMapReadyCallba
 
 
         UserIs = getUserType();
-//        mDatabaseReference = FirebaseDatabase.getInstance().getReference().child(UserIs);
-//        DatabaseReference newPost = mDatabaseReference.push();
         PostLocation postLocation = new PostLocation();
 
         //uid
@@ -380,37 +397,6 @@ public class Maps_Activity extends AppCompatActivity implements OnMapReadyCallba
 
        // mProgress.dismiss();
 
-
-    }
-
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     */
-    @SuppressLint("MissingPermission")
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-        mapReady = true;
-
-        //Clear map and get time
-        //clearMap();
-        getCurrentDate();
-
-        //Get first markers
-        try {
-            addMarkers();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        //Display other positions of same  user type
-        //start new loop thread
-        Log.d("addMarkersLoop : ", "started addMarkersLoop : ");
-
-        scheduledAddMarkersLoop();
-
-
     }
 
 
@@ -425,7 +411,6 @@ public class Maps_Activity extends AppCompatActivity implements OnMapReadyCallba
         handlerNew.post(markersRunnable);
 
     }
-
 
 
     /**
@@ -480,33 +465,30 @@ public class Maps_Activity extends AppCompatActivity implements OnMapReadyCallba
     }
 
 
-
-
-    /** clear Markers **/
-    private void removeAllMarkers(List<Marker> allMarkers) {
-        for (Marker mLocationMarker: allMarkers) {
-            mLocationMarker.remove();
-            Log.d("mLocationMarker ", "mLocationMarker");
-        }
-        allMarkers.clear();
-
-        //Call add markers again if not called from showOnly
-        try {
-            addMarkers();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-    }
-
+//    /** clear Markers **/
+//    private void removeAllMarkers(List<Marker> allMarkers) {
+//        for (Marker mLocationMarker: allMarkers) {
+//            mLocationMarker.remove();
+//            Log.d("mLocationMarker ", "mLocationMarker");
+//        }
+//        allMarkers.clear();
+//
+//        //Call add markers again if not called from showOnly
+//        try {
+//            addMarkers();
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//
+//    }
 
 
     /** clear Map **/
     private void clearMap() {
         mMap.clear();
 
-
     }
+
 
     /** clear Map Not From Main Thread **/
     //@Override
@@ -562,9 +544,7 @@ public class Maps_Activity extends AppCompatActivity implements OnMapReadyCallba
 
         return super.onOptionsItemSelected(item);
 
-
     }
-
 
 
     /** Show Only View **/
@@ -573,7 +553,7 @@ public class Maps_Activity extends AppCompatActivity implements OnMapReadyCallba
 
         MarkerOptions mp = new MarkerOptions();
 
-        mDatabaseReference = mDatabase.getReference().child(UserTypeToDisplay);
+//        mDatabaseReference = mDatabase.getReference().child(UserTypeToDisplay);
 
         if (UserTypeToDisplay == "skipper") {
             mp.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
@@ -689,12 +669,13 @@ public class Maps_Activity extends AppCompatActivity implements OnMapReadyCallba
             }
         });
 
-
     }
+
 
     /** To Do **/
     private void startProfile() {
     }
+
 
     /** Get Locations Update CallBack **/
     @Override
@@ -704,6 +685,7 @@ public class Maps_Activity extends AppCompatActivity implements OnMapReadyCallba
         addMarkersToMap(response);
 
     }
+
 
     private void addMarkersToMap(String locationsResult) {
 
@@ -754,15 +736,15 @@ public class Maps_Activity extends AppCompatActivity implements OnMapReadyCallba
 
             int sum = 0;
             //Add marker if user is not local and updated last 5 minutes
-            if (!gps.getUid().equals(mUID) && timeDiff < 1440) {
+            if (!gps.getUid().equals(mUID) && timeDiff < 300000) {
 
                 sum = sum + 1;
 
                 lat = gps.getLat();
                 lng = gps.getLng();
 
-                Log.d("latFromFirebase : ", String.valueOf(lat));
-                Log.d("latFromFirebase : ", String.valueOf(lng));
+                Log.d("addMarkersToMap_lat : ", String.valueOf(lat));
+                Log.d("addMarkersToMap_lng : ", String.valueOf(lng));
 
                 mp.position(new LatLng(Double.parseDouble(lat), Double.parseDouble(lng)));
 
@@ -779,6 +761,7 @@ public class Maps_Activity extends AppCompatActivity implements OnMapReadyCallba
 
         }
     }
+
 
     /** Get Locations Update CallBack **/
     @Override

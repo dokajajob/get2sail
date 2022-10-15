@@ -16,78 +16,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-//public class GetLocation {
-//
-//    public static final String URL = "http://192.168.1.83:8000/api/location/";
-//    private RequestQueue mRequestQueue;
-//    private StringRequest mStringRequest;
-//    private String locationResponse;
-//    private Context ctx;
-//
-//
-//
-//    public String executeGet(Context context, String user) {
-//        ctx = context;
-//
-//        //Strict mode for HTTPS
-//        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-//        StrictMode.setThreadPolicy(policy);
-//
-//        //Volley library for API extraction
-//        mRequestQueue = Volley.newRequestQueue(ctx);
-//
-//        //Get Location API
-//        mStringRequest = new StringRequest(Request.Method.GET, URL, response -> {
-//
-//            Log.d("Response: ", response.toString());
-//            try {
-//                JSONObject obj = new JSONObject(response);
-//                JSONObject request = obj.getJSONObject("request");
-//                Log.d("Request:", String.valueOf(request));
-//                //City Search in API
-//                if (!(request.getString("query").contains("request_failed"))) {
-//                     locationResponse = request.getString("query");
-//                     Log.d("locationResponse", locationResponse);
-//
-//
-//
-////        //Temperature Search in API
-////        JSONObject current = obj.getJSONObject("current");
-////        String temperature = current.getString("temperature");
-////        Log.d("temperature:", temperature);
-//
-////    JSONArray weather_icons = currentWI.getJSONArray("weather_icons");
-//
-//
-//                } else {
-//                    Log.d("WRONG_Location_Request","wrong location request" );
-//                    Toast.makeText(ctx, "WRONG_Location_Request", Toast.LENGTH_LONG).show();
-//                }
-//
-//
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//                Log.d("Error = ", e.getMessage());
-//                Toast.makeText(ctx, "Wrong URL For Weather Provided", Toast.LENGTH_LONG).show();
-//            }
-//
-//        }, error -> Log.d("Error = ", error.getMessage()));
-//        mRequestQueue.add(mStringRequest);
-//
-//        return locationResponse;
-//    }
-//}
-
-//interface CallBack {
-//
-//    String methodToCallBack();
-//}
-
 
 public class GetLocation {
     private Context ctx;
     public String locationsResponse;
-    public static final String URL = "http://192.168.1.247:8000/api/location/";
+    public static final String URL = "http://192.168.1.232:8000/api/location/";
 
     public void executeGet(Context context, String user, final CallBack callBack) {
         ctx = context;

@@ -22,7 +22,7 @@ import Utils.GPS;
 public class Register {
 
 
-    public static final String targetURL = "http://192.168.1.247:8000/api/users/";
+    public static final String targetURL = "http://192.168.1.232:8000/api/users/";
     private Context mContext;
 
     //Create User
@@ -43,7 +43,7 @@ public class Register {
 
         HttpURLConnection httpConnection = null;
         try {
-            //Criando a conexão
+            //Connection
             URL target = new URL(targetURL);
             httpConnection = (HttpURLConnection) target.openConnection();
 
@@ -53,7 +53,7 @@ public class Register {
             httpConnection.connect();
 
 
-            //Enviando Request
+            //Request
             OutputStream outputStream = httpConnection.getOutputStream();
             outputStream.write(user_pass_json_user.getBytes());
             outputStream.flush();
@@ -62,7 +62,7 @@ public class Register {
                 return ("Failed : HTTP error code : " + httpConnection.getResponseCode());
             }
 
-            //Recebendo Response
+            //Response
             InputStream is = httpConnection.getInputStream();
             BufferedReader rd = new BufferedReader(new InputStreamReader(is));
 

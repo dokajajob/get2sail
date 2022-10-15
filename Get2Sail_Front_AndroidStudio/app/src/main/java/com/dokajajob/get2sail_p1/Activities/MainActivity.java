@@ -58,24 +58,14 @@ public class MainActivity extends AppCompatActivity  {
     private Button buttonSignOut;
     private ImageView buttonCreate;
     private GifImageView loginImage;
-    private GifImageView logoutImage;
-    private FirebaseFunctions mFunctions;
     private FirebaseUser mUser;
     private FirebaseAuth mAuth;
-    public double Latitude;
-    public double Longitude;
-    public GoogleApiClient mGoogleApiClient;
-    private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
-    public Boolean permissionsGranted;
-    public Boolean mRequestingLocationUpdates;
-    public Location mCurrentLocation;
     private Switch switch_skipper;
     private Boolean isSkipper = false;
     private Boolean switchState = false;
-    private Boolean authorized;
-    private String UserIsMain;
+    public Boolean authorized;
     private InetAddress ip;
-    private String hostname;
+    public String hostname;
     public Context context;
 
 
@@ -104,7 +94,6 @@ public class MainActivity extends AppCompatActivity  {
         }
 
 
-
         //User switch state
         switch_skipper = findViewById(R.id.switch_skipper);
         switch_skipper.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -123,67 +112,6 @@ public class MainActivity extends AppCompatActivity  {
             }
         });
 
-
-
-
-        //Auth instantiate
-        firebaseAuth = FirebaseAuth.getInstance();
-
-        //Auth State
-        firebaseAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-
-                //User switch state change
-                SharedPreferences sharedPrefs = getSharedPreferences("com.dokajajob.get2sail_p1", MODE_PRIVATE);
-                if (sharedPrefs != null) {
-                    isSkipper = sharedPrefs.getBoolean("isSkipperPref", false);
-                    switch_skipper.setChecked(isSkipper);
-
-                }
-
-                System.out.println("isSkipperPref : " + isSkipper);
-
-
-                if (user != null && checkPermissions()) {
-
-
-                    //user signed in
-                    Log.d(TAG , " signed in" );
-                    Log.d(TAG, user.getEmail());
-                    Toast.makeText(MainActivity.this,  user.getEmail() + " signed in", Toast.LENGTH_LONG).show();
-
-
-                    //Going to maps activity
-                    Intent intent = new Intent(MainActivity.this, Maps_Activity.class);
-                    intent.putExtra("userType", isSkipper);
-                    intent.putExtra("authorized", authorized);
-
-                    final Handler handler = new Handler(Looper.getMainLooper());
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-
-
-
-                            startActivity(intent);
-                            finish();
-
-
-                        }
-                    }, 1000);
-
-
-
-                } else {
-                    Log.d(TAG , " signed out");
-                    Toast.makeText(MainActivity.this, "User signed out", Toast.LENGTH_LONG).show();
-                }
-
-            }
-        };
 
         user = findViewById(R.id.user);
         password = findViewById(R.id.password);
@@ -267,6 +195,7 @@ public class MainActivity extends AppCompatActivity  {
 
         Register djangoRegister = new Register();
 
+
         //Create User
         buttonCreate = findViewById(R.id.buttonCreate);
         buttonCreate.setOnClickListener(new View.OnClickListener() {
@@ -309,8 +238,6 @@ public class MainActivity extends AppCompatActivity  {
     }
 
 
-
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -330,8 +257,6 @@ public class MainActivity extends AppCompatActivity  {
 
         switch (item.getItemId()) {
 
-
-
         }
         return super.onOptionsItemSelected(item);
 
@@ -342,31 +267,6 @@ public class MainActivity extends AppCompatActivity  {
         return super.onCreateOptionsMenu(menu);
     }
 
-    /**
-     * Start
-     */
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        firebaseAuth.addAuthStateListener(firebaseAuthListener);
-
-
-    }
-
-    /**
-     * Stop
-     */
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-        if (firebaseAuthListener != null) {
-            firebaseAuth.removeAuthStateListener(firebaseAuthListener);
-
-        }
-
-    }
 
     /**
      * Check permissions. returns only if granted
@@ -377,6 +277,7 @@ public class MainActivity extends AppCompatActivity  {
         //permissionsGranted = true;
         return permissionState == PackageManager.PERMISSION_GRANTED;
     }
+
 
     /**
      * GPS Permissions Request
@@ -408,7 +309,5 @@ public class MainActivity extends AppCompatActivity  {
                     }
                 }).check();
     }
-
-
 
 }

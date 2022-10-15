@@ -23,7 +23,7 @@ import android.util.Log;
 
 public class PostLocation {
 
-    public static final String targetURL = "http://192.168.1.247:8000/api/location/";
+    public static final String targetURL = "http://192.168.1.232:8000/api/location/";
     private Context mContext;
 
 
