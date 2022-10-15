@@ -22,7 +22,7 @@ import Utils.GPS;
 public class Register {
 
 
-    public static final String targetURL = "http://192.168.1.247:8000/api/users/";
+    public static final String targetURL = "http://192.168.1.232:8000/api/users/";
     private Context mContext;
 
     //Create User

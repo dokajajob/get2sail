@@ -754,7 +754,7 @@ public class Maps_Activity extends AppCompatActivity implements OnMapReadyCallba
 
             int sum = 0;
             //Add marker if user is not local and updated last 5 minutes
-            if (!gps.getUid().equals(mUID) && timeDiff < 1440) {
+            if (!gps.getUid().equals(mUID) && timeDiff < 300000) {
 
                 sum = sum + 1;
 

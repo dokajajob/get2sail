@@ -23,7 +23,7 @@ import android.content.Context;
 public class Login {
 
     private Context context;
-    public static final String targetURL = "http://192.168.1.247:8000/auth/";
+    public static final String targetURL = "http://192.168.1.232:8000/auth/";
 
     //New Login
     public Serializable executePost(String userName, String userPasswd) throws JSONException {
