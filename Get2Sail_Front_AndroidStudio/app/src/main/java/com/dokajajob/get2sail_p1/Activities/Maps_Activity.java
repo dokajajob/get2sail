@@ -2,14 +2,10 @@ package com.dokajajob.get2sail_p1.Activities;
 
 import static com.google.android.gms.location.LocationServices.getFusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
-
 import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -18,12 +14,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import org.apache.commons.lang3.StringUtils;
-
 import com.dokajajob.get2sail_p1.databinding.ActivityMapsBinding;
 import com.dokajajob.get2sail_p1.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -42,29 +35,17 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-
 import org.json.JSONException;
-
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
 import java.util.List;
-import java.util.Scanner;
-import java.util.concurrent.TimeUnit;
-
 import Dgango_API.GetLocation;
 import Dgango_API.GetLocation.CallBack;
+import Dgango_API.GetLocationByUserType;
 import Dgango_API.PostLocation;
 import Utils.GPS;
 
@@ -380,8 +361,8 @@ public class Maps_Activity extends AppCompatActivity implements OnMapReadyCallba
 
        // mProgress.dismiss();
 
-
     }
+
 
     /**
      * Manipulates the map once available.
@@ -427,7 +408,6 @@ public class Maps_Activity extends AppCompatActivity implements OnMapReadyCallba
     }
 
 
-
     /**
      * markersRunnable
      */
@@ -448,7 +428,6 @@ public class Maps_Activity extends AppCompatActivity implements OnMapReadyCallba
     };
 
 
-
     private void addMarkers() throws JSONException {
 
         //clear map
@@ -456,30 +435,17 @@ public class Maps_Activity extends AppCompatActivity implements OnMapReadyCallba
         //mMap.clear();
         System.out.println("map cleared");
 
-
         MarkerOptions mp = new MarkerOptions();
         GetLocation getLocation = new GetLocation();
 
         UserIs = getUserType();
         System.out.println("UserIs addMarkers : " + UserIs);
 
-
-        if (UserIs.equals("guest")) {
-            mp.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
-            //Getting locations and moving to callBack function [addMarkersToMap]
-            getLocation.executeGet(context, UserIs, this);
-            System.out.println("addMarker response : " + locationsResult);
-        } else {
-            mp.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-            //Getting locations and moving to callBack function [addMarkersToMap]
-            getLocation.executeGet(context, UserIs, this);
-            System.out.println("addMarker response : " + locationsResult);
-        }
-
+        //Getting locations and moving to callBack function [addMarkersToMap]
+        getLocation.executeGet(context, this);
+        System.out.println("addMarker response : " + locationsResult);
 
     }
-
-
 
 
     /** clear Markers **/
@@ -498,7 +464,6 @@ public class Maps_Activity extends AppCompatActivity implements OnMapReadyCallba
         }
 
     }
-
 
 
     /** clear Map **/
@@ -569,132 +534,24 @@ public class Maps_Activity extends AppCompatActivity implements OnMapReadyCallba
 
     /** Show Only View **/
     private void showOnly(String UserTypeToDisplay) {
-        clearMap();
 
-        MarkerOptions mp = new MarkerOptions();
+        //mMap.clear();
+        clearMapNotMain();
+        System.out.println("map cleared");
 
-        mDatabaseReference = mDatabase.getReference().child(UserTypeToDisplay);
+        GetLocationByUserType getLocation = new GetLocationByUserType();
 
-        if (UserTypeToDisplay == "skipper") {
-            mp.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
-
-        } else {
-            mp.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-        }
-
-
-        mDatabaseReference.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-                gpsList = new ArrayList<>();
-                //listItems = new ArrayList<>();
-                List<Marker> AllMarkers = new ArrayList<Marker>();
-
-                GPS gps = snapshot.getValue(GPS.class);
-
-                System.out.println("snapshot " + snapshot);
-                //Log.d("post", gps.toString());
-                gpsList.add(gps);
-                Collections.reverse(gpsList);
-
-                //Current Date
-                dateIsForMarker = getCurrentDate();
-                System.out.println("dateIsForShowOnly " + dateIsForMarker);
-
-
-                for (GPS c : gpsList) {
-
-                    gps.setLat(c.getLat());
-                    //System.out.println(lat);
-                    gps.setLng(c.getLng());
-                    //System.out.println(lng);
-                    gps.setUid(c.getUid());
-                    System.out.println("uidFromDb " + gps.getUid());
-                    System.out.println("uidUser " + mUID);
-
-                    //Date comparison//
-
-                    //Get date from db
-                    gps.setDate(c.getDate());
-                    receivedDate = gps.getDate();
-                    Log.d("receivedDate : ", receivedDate);
-
-                    //String to ZoneDateTime
-                    ZonedDateTime receivedDateInDate = ZonedDateTime.parse(receivedDate);
-                    System.out.println("receivedDateInDate " + receivedDateInDate);
-
-                    //Get diff
-                    long timeDiff = ChronoUnit.MINUTES.between(receivedDateInDate, dateIsForMarker);
-                    System.out.println("timeDiff " + timeDiff);
-
-
-                    int sum = 0;
-
-                    if (!gps.getUid().equals(mUID) && timeDiff < 5) {
-
-                        sum = sum + 1;
-
-                        lat = gps.getLat();
-                        lng = gps.getLng();
-
-                        Log.d("latFromFirebase : ", String.valueOf(lat));
-                        Log.d("latFromFirebase : ", String.valueOf(lng));
-
-
-                        mp.position(new LatLng(Double.parseDouble(lat), Double.parseDouble(lng)));
-
-                        mp.title(lat + " : " + lng + " : " + gps.getUid());
-
-                        //mMap.addMarker(mp);
-                        Marker mLocationMarker = mMap.addMarker(mp);
-                        AllMarkers.add(mLocationMarker); // add to map
-
-
-                    } else {
-                        Log.d("uidCheck ", "same uid " + mUID);
-                    }
-                    System.out.println("sum of added markers after showOnly " + sum);
-
-
-                }
-                gpsList.clear();
-
-                //Move camera to last lat lng
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
-                        new LatLng(Double.parseDouble(lat), Double.parseDouble(lng)), 16));
-
-
-
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
+        //Getting locations and moving to callBack function [addMarkersToMap]
+        getLocation.executeGet(context, UserTypeToDisplay, (GetLocationByUserType.CallBack) this);
+        System.out.println("addMarker response : " + locationsResult);
 
     }
+
 
     /** To Do **/
     private void startProfile() {
     }
+
 
     /** Get Locations Update CallBack **/
     @Override
@@ -704,6 +561,7 @@ public class Maps_Activity extends AppCompatActivity implements OnMapReadyCallba
         addMarkersToMap(response);
 
     }
+
 
     private void addMarkersToMap(String locationsResult) {
 
@@ -767,6 +625,14 @@ public class Maps_Activity extends AppCompatActivity implements OnMapReadyCallba
                 mp.position(new LatLng(Double.parseDouble(lat), Double.parseDouble(lng)));
 
                 mp.title(lat + " : " + lng + " : "  + gps.getUid());
+
+                if (gps.getUser_is().equals("guest")) {
+                    mp.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+                    System.out.println("addMarker guest : " + gps.getUser_is());
+                } else {
+                    mp.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+                    System.out.println("addMarker skipper : " + gps.getUser_is());
+                }
 
                 //mMap.addMarker(mp);
                 Marker mLocationMarker = mMap.addMarker(mp);

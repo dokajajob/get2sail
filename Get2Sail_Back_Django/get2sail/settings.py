@@ -96,6 +96,8 @@ WSGI_APPLICATION = 'get2sail.wsgi.application'
 # }
 
 # django_project/settings.py
+
+#Postgres
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",

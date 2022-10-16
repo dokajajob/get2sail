@@ -16,12 +16,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class GetLocation {
+public class GetLocationByUserType {
     private Context ctx;
     public String locationsResponse;
-    public static final String URL = "http://192.168.1.232:8000/api/location/";
 
-    public void executeGet(Context context, final CallBack callBack) {
+
+    public void executeGet(Context context, String user, final CallBack callBack) {
+        String URL = "http://192.168.1.232:8000/api/usertypesearch/?user=" + user;
         ctx = context;
         RequestQueue queue = Volley.newRequestQueue(ctx);
         StringRequest getRequest = new StringRequest(Request.Method.GET, URL,
@@ -32,7 +33,7 @@ public class GetLocation {
                         callBack.onSuccess(response);
 
 //                        locationsResponse = response;
-                        Log.d("response : ", response);
+                        Log.d("response_by_user_type : ", response);
 //                        Log.d("response type: ", response.getClass().getName());
 //                        Log.d("locationsResponse", locationsResponse);
 //                        Log.d("locationsResponse type", locationsResponse.getClass().getName());
