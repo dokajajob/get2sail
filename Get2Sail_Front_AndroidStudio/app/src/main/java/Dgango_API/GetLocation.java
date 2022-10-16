@@ -19,9 +19,16 @@ import java.util.Map;
 public class GetLocation {
     private Context ctx;
     public String locationsResponse;
-    public static final String URL = "http://192.168.1.232:8000/api/location/";
+    public String URL;
+//    public static final String URL = "http://192.168.1.232:8000/api/location/";
 
-    public void executeGet(Context context, final CallBack callBack) {
+    public void executeGet(Context context, String user, final CallBack callBack) {
+        if (user == null) {
+             URL = "http://192.168.1.232:8000/api/location/";
+        }
+        else{
+             URL = "http://192.168.1.232:8000/api/usertypesearch/?user=" + user;
+        }
         ctx = context;
         RequestQueue queue = Volley.newRequestQueue(ctx);
         StringRequest getRequest = new StringRequest(Request.Method.GET, URL,

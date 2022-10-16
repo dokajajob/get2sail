@@ -51,7 +51,7 @@ INSTALLED_APPS = [
 ]
 
 CRONJOBS = [
-    ('*/5 * * * *', 'get2sail_app.cron.clear_locations')
+    ('*/15 * * * *', 'get2sail_app.cron.clear_locations')
 ]
 
 MIDDLEWARE = [

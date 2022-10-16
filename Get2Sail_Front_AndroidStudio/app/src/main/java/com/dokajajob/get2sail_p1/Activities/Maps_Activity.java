@@ -45,7 +45,6 @@ import java.util.ArrayList;
 import java.util.List;
 import Dgango_API.GetLocation;
 import Dgango_API.GetLocation.CallBack;
-import Dgango_API.GetLocationByUserType;
 import Dgango_API.PostLocation;
 import Utils.GPS;
 
@@ -87,7 +86,8 @@ public class Maps_Activity extends AppCompatActivity implements OnMapReadyCallba
     /**
      * device self-location update sent to BackEnd [ach 15 min]
      * device self-location added to map each [1 minute]
-     * updates From BackEnd added to map [current time < 5 min]
+     * updates From BackEnd added to map each 5 min if [diff (current time - location record time) < 60 min]
+     * cronjob cleans locations on backend each 15 min
 
      */
     @SuppressLint("MissingPermission")
@@ -438,11 +438,8 @@ public class Maps_Activity extends AppCompatActivity implements OnMapReadyCallba
         MarkerOptions mp = new MarkerOptions();
         GetLocation getLocation = new GetLocation();
 
-        UserIs = getUserType();
-        System.out.println("UserIs addMarkers : " + UserIs);
-
         //Getting locations and moving to callBack function [addMarkersToMap]
-        getLocation.executeGet(context, this);
+        getLocation.executeGet(context, UserIs=null, this);
         System.out.println("addMarker response : " + locationsResult);
 
     }
@@ -539,10 +536,10 @@ public class Maps_Activity extends AppCompatActivity implements OnMapReadyCallba
         clearMapNotMain();
         System.out.println("map cleared");
 
-        GetLocationByUserType getLocation = new GetLocationByUserType();
+        GetLocation getLocation = new GetLocation();
 
         //Getting locations and moving to callBack function [addMarkersToMap]
-        getLocation.executeGet(context, UserTypeToDisplay, (GetLocationByUserType.CallBack) this);
+        getLocation.executeGet(context, UserTypeToDisplay, this);
         System.out.println("addMarker response : " + locationsResult);
 
     }
@@ -611,8 +608,8 @@ public class Maps_Activity extends AppCompatActivity implements OnMapReadyCallba
             System.out.println("timeDiff " + timeDiff);
 
             int sum = 0;
-            //Add marker if user is not local and updated last 5 minutes
-            if (!gps.getUid().equals(mUID) && timeDiff < 300000) {
+            //Add marker if user is not local and updated last 60 minutes
+            if (!gps.getUid().equals(mUID) && timeDiff < 360000) {
 
                 sum = sum + 1;
 
